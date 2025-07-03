@@ -5,7 +5,8 @@ import spacy
 import pandas as pd 
 import pickle
 from pathlib import Path
-
+from collections import Counter
+import math
 
 nlp = spacy.load("en_core_web_sm")
 nlp.max_length = 2000000
@@ -175,13 +176,30 @@ def subjects_by_verb_pmi(doc, target_verb):
 
 def subjects_by_verb_count(doc, verb):
     """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
-    pass
+    subjects = Counter()
+    verb = verb.lower()
+
+    for token in doc:
+        if token.pos_ == "VERB" and token.lemma_.lower == verb:
+            for child in token.children:
+                if child.dep_ in ["nsubj", "nsubjpass"]:
+                    subjects[child.lemma_] += 1
+    return subjects.most_common(10)
+
 
 
 
 def adjective_counts(doc):
     """Extracts the most common adjectives in a parsed document. Returns a list of tuples."""
-    pass
+    # counting adjectives 
+    adjectives = Counter()
+    for doc in doc:
+        for token in doc:
+            if token.pos_ == "ADJ":
+                adjectives[token.lemma_] += 1
+
+    return adjectives.most_common(10)
+
 
 
 
@@ -216,11 +234,11 @@ if __name__ == "__main__":
         print(f"{title}: {fk:.4f}")
 
 
-    #df = pd.read_pickle(Path.cwd() / "pickles" /"name.pickle")
-    # print(adjective_counts(df))
+    df = pd.read_pickle(Path.cwd() / "pickles" /"name.pickle")
+    print(adjective_counts(df))
     
     """ 
-    for i, row in df.iterrows():
+    for i, row in df_parsed.iterrows():
         print(row["title"])
         print(subjects_by_verb_count(row["parsed"], "hear"))
         print("\n")
