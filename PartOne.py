@@ -3,6 +3,7 @@ import nltk
 import string
 import spacy
 import pandas as pd 
+import pickle
 from pathlib import Path
 
 
@@ -101,8 +102,31 @@ def read_novels(path=Path.cwd() / "p1-texts" / "novels"):
 def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
     """Parses the text of a DataFrame using spaCy, stores the parsed docs as a column and writes 
     the resulting  DataFrame to a pickle file"""
-    pass
 
+    store_path.mkdir(parents=True, exist_ok=True)
+    pickle_path = store_path / out_name
+
+    df_parsed = df.copy()
+    parsed_docs = []
+    print("Parsing texts using spacy")
+
+    #Loop rows  
+    for i, row in df_parsed.iterrows():
+        title = row["title"]
+        print(f"processing: {title}")
+        text = row["text"]
+        # parse the text
+        doc = nlp(text)
+        parsed_docs.append(doc)
+
+    df_parsed["parsed"] = parsed_docs
+
+    #serialise parsed DataFrame to a pickle file
+    print(f"Parsed dataframe saved to {pickle_path}")
+    df_parsed.to_pickle(pickle_path)
+    print("Parsing is complete")
+    return df_parsed
+ 
 
 def nltk_ttr(text):
     """Calculates the type-token ratio of a text. Text is tokenized using nltk.word_tokenize."""
@@ -171,8 +195,8 @@ if __name__ == "__main__":
     
     print(df.head())
     
-    #parse(df)
-    #print(df.head())
+    df_parsed = parse(df)
+    print(df_parsed.head())
     
     #Type Token Ratio.
     ttr_map = get_ttrs(df)
