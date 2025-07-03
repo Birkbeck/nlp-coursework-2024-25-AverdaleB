@@ -1,5 +1,6 @@
 
 import nltk
+import string
 import spacy
 import pandas as pd 
 from pathlib import Path
@@ -68,7 +69,19 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
 
 def nltk_ttr(text):
     """Calculates the type-token ratio of a text. Text is tokenized using nltk.word_tokenize."""
-    pass
+    # type token ratio
+    tokens = nltk.word_tokenize(text)
+    data_clean = [t.lower() for t in tokens if t.isalpha()]
+
+    if len(data_clean) > 0:
+        num_tokens = len(data_clean)
+        num_types = len(set(data_clean))
+        return num_types / num_tokens
+    else:
+        return 0.0  #to avoid divsion by zero
+
+
+
 
 
 def get_ttrs(df):
@@ -114,13 +127,16 @@ if __name__ == "__main__":
     print(path)
     df = read_novels(path) # this line will fail until you have completed the read_novels function above.
     print(df.head())
-    #nltk.download("cmudict")
+    nltk.download("punkt")
+    nltk.download("punkt_tab")
+    nltk.download("cmudict")
     #parse(df)
     #print(df.head())
-    #print(get_ttrs(df))
+    print(get_ttrs(df))
     #print(get_fks(df))
     #df = pd.read_pickle(Path.cwd() / "pickles" /"name.pickle")
     # print(adjective_counts(df))
+    
     """ 
     for i, row in df.iterrows():
         print(row["title"])
