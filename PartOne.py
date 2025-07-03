@@ -126,14 +126,24 @@ if __name__ == "__main__":
     path = Path.cwd() / "p1-texts" / "novels"
     print(path)
     df = read_novels(path) # this line will fail until you have completed the read_novels function above.
-    print(df.head())
+    
+    #NLTK data
     nltk.download("punkt")
     nltk.download("punkt_tab")
     nltk.download("cmudict")
+    
+    print(df.head())
+    
     #parse(df)
     #print(df.head())
+    
+    #Type Token Ratio 
     print(get_ttrs(df))
-    #print(get_fks(df))
+    print("\nType-Token Ratios (TTR):")
+
+    print(get_fks(df))
+    print("\nFlesch-Kincaid Reading Grade Scores (FK):")
+
     #df = pd.read_pickle(Path.cwd() / "pickles" /"name.pickle")
     # print(adjective_counts(df))
     
