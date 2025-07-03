@@ -26,14 +26,18 @@ def fk_level(text, d):
     sum_sentences = len(sentences)
     
     tokens = nltk.word_tokenize(text)
-    words = tokens for token in tokens if token.isalpha()]
+    words = [token for token in tokens if token.isalpha()]
     sum_words = len(words)
 
-    sum_syllables = sum(count_syl(word,d) for word in words)
+    sum_syllables = sum(count_syl(word, d) for word in words)
     if len(sentences) > 0 and len(words) > 0:
         # Flesch-Kincaid Grade Level formula =
-        # (total words / total sentences) + 11.8 (total syllables / total words) - 15.59
-        return 0.39 * (sum_words / sum_sentences) + 11.8 * (sum_syllables / num_words) - 15.59
+        # 0.39 * (total words / total sentences) + 11.8 (total syllables / total words) - 15.59
+        return (
+            0.39 * (sum_words / sum_sentences)
+            + 11.8 * (sum_syllables / sum_words)
+            - 15.59
+        )
     else:
         return 0.0  # to avoid division by zero
 
@@ -66,6 +70,7 @@ def count_syl(word, d):
                     prev_was_vowel = True
             else:
                 prev_was_vowel = False
+        return max(count_syl, 1)
 
 
 
@@ -169,12 +174,18 @@ if __name__ == "__main__":
     #parse(df)
     #print(df.head())
     
-    #Type Token Ratio 
-    print(get_ttrs(df))
+    #Type Token Ratio.
+    ttr_map = get_ttrs(df)
     print("\nType-Token Ratios (TTR):")
+    for title, ttr in ttr_map.items():
+        print(f"{title}: {ttr:.4f}")
 
-    print(get_fks(df))
-    print("\nFlesch-Kincaid Reading Grade Scores (FK):")
+    #Flesch-Kincaid Grade Level Scores.
+    fk_map = get_fks(df)
+    print("\nFlesch-Kincaid (FK) Reading Grade Scores:")
+    for title, fk in fk_map.items():
+        print(f"{title}: {fk:.4f}")
+
 
     #df = pd.read_pickle(Path.cwd() / "pickles" /"name.pickle")
     # print(adjective_counts(df))
