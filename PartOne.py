@@ -110,14 +110,19 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
     parsed_docs = []
     print("Parsing texts using spacy")
 
-    #Loop rows  
     for i, row in df_parsed.iterrows():
+        text = row["text"]
         title = row["title"]
         print(f"processing: {title}")
-        text = row["text"]
-        # parse the text
-        doc = nlp(text)
-        parsed_docs.append(doc)
+    
+        #split text into smaller chunks 
+        batch = []
+        batch_size = 100000  # You may want to define a batch size
+        for start in range(0, len(text), batch_size):
+            fragment = text[start:start + batch_size]
+            batch.append(nlp(fragment))
+        #store list of parsed_docs
+        parsed_docs.append(batch)
 
     df_parsed["parsed"] = parsed_docs
 
