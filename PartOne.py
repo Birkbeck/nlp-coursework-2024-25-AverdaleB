@@ -1,9 +1,7 @@
-#Re-assessment template 2025
-
-# Note: The template functions here and the dataframe format for structuring your solution is a suggested but not mandatory approach. You can use a different approach if you like, as long as you clearly answer the questions and communicate your answers clearly.
 
 import nltk
 import spacy
+import pandas as pd 
 from pathlib import Path
 
 
@@ -40,10 +38,26 @@ def count_syl(word, d):
     pass
 
 
-def read_novels(path=Path.cwd() / "texts" / "novels"):
+def read_novels(path=Path.cwd() / "p1-texts" / "novels"):
     """Reads texts from a directory of .txt files and returns a DataFrame with the text, title,
     author, and year"""
-    pass
+    #Pandas dataframe to store columns
+    df = pd.DataFrame(columns=["text", "title", "author", "year"])
+    i = 0
+   
+    for files in path.glob("*.txt"):
+        novels = files.stem.split("-")
+
+        title = "-".join(novels[:-2])
+        author = novels[-2]
+        year = int(novels[-1])
+        text = files.read_text(encoding="utf-8")
+
+        df.loc[i] = [text, title, author, year]
+        i += 1
+        
+    df = df.sort_values("year").reset_index(drop=True)
+    return df
 
 
 def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
@@ -96,10 +110,10 @@ if __name__ == "__main__":
     """
     uncomment the following lines to run the functions once you have completed them
     """
-    #path = Path.cwd() / "p1-texts" / "novels"
-    #print(path)
-    #df = read_novels(path) # this line will fail until you have completed the read_novels function above.
-    #print(df.head())
+    path = Path.cwd() / "p1-texts" / "novels"
+    print(path)
+    df = read_novels(path) # this line will fail until you have completed the read_novels function above.
+    print(df.head())
     #nltk.download("cmudict")
     #parse(df)
     #print(df.head())
