@@ -118,7 +118,7 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
     
         #split text into smaller chunks 
         batch = []
-        batch_size = 100000  # You may want to define a batch size
+        batch_size = 100000  
         for start in range(0, len(text), batch_size):
             fragment = text[start:start + batch_size]
             batch.append(nlp(fragment))
@@ -136,7 +136,7 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
 
 def nltk_ttr(text):
     """Calculates the type-token ratio of a text. Text is tokenized using nltk.word_tokenize."""
-    # type token ratio
+    #type token ratio
     tokens = nltk.word_tokenize(text)
     data_clean = [t.lower() for t in tokens if t.isalpha()]
 
@@ -146,9 +146,6 @@ def nltk_ttr(text):
         return num_types / num_tokens
     else:
         return 0.0  #to avoid divsion by zero
-
-
-
 
 
 def get_ttrs(df):
@@ -275,19 +272,27 @@ if __name__ == "__main__":
     for title, fk in fk_map.items():
         print(f"{title}: {fk:.4f}")
 
-
-    df = pd.read_pickle(Path.cwd() / "pickles" /"name.pickle")
+    df = pd.read_pickle(Path.cwd() / "pickles" /"parsed.pickle")
     print(adjective_counts(df))
+
+    #Most common syntactic objects
+    for i, row in df_parsed.iterrows():
+        print(row["title"])
+        print(adjective_counts(row["parsed"]))
+        print("\n")
     
-    """ 
+    #Most common syntactic subjects of the verb 'hear' by frequency
+    print("\n Most common syntactic subjects of the verb 'hear' by frequency:")
     for i, row in df_parsed.iterrows():
         print(row["title"])
         print(subjects_by_verb_count(row["parsed"], "hear"))
         print("\n")
 
+    #Most common syntactic subjects of the verb 'hear' by PMI
+    print("\nMost common syntactic subjects of the verb 'hear' by PMI:")
     for i, row in df.iterrows():
         print(row["title"])
         print(subjects_by_verb_pmi(row["parsed"], "hear"))
         print("\n")
-    """
+
 
