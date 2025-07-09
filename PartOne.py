@@ -167,25 +167,27 @@ def get_fks(df):
 
 def subjects_by_verb_pmi(doc, target_verb):
     """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
-    verb = verb.lower()
-
-    subjects = Counter()
-    total_count = Counter()
+    verb_lower = target_verb.lower()
+    docs = doc if isinstance(doc, list) else [doc]
+    
+    target_verb_subjects = Counter()
+    all_subjects = Counter()
     total_verbs = 0
     verb_count = 0
 
+    for doc in docs:
+        for token in doc:
+            if token.pos_ == "VERB":
+                total_verbs += 1
+                    
 
-    for token in doc:
-        if token.pos_ == "VERB":
-            total_verbs += 1
-            if token.lemma_.lower() == target_verb_lower():
-                verb_count += 1
+                    #Search for verb subjects 
+                    for child in token.children:
+                        if child.dep_ in ["nsubj", "nsubjpass"]:
+                            all_subjects[child.lemma_].lower += 1
 
-                #Search for verb subjects 
-                for child in token.children:
-                    if child.dep_ in ["nsubj", "nsubjpass"]:
-                        subjects[child.lemma_] += 1
-                        total_count[child.lemma_] += 1
+                    
+                            
                         
     # Calculate PMI
     scores_pmi = []
@@ -200,32 +202,25 @@ def subjects_by_verb_pmi(doc, target_verb):
             pmi = math.log(p_subject_verb / (p_subject * p_verb))
             scores_pmi.append((subject, pmi))
 
-        #Sort by PMI score and return top 10
-        pmi_scores.sort(key=lambda x: x[1], reverse=True)
-        return pmi_scores[:10]
+    #Sort by PMI score and return top 10
+    scores_pmi.sort(key=lambda x: x[1], reverse=True)
+    return scores_pmi[:10]
     
-
-
-
-
-            
-
-
-        
 
 def subjects_by_verb_count(doc, verb):
     """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
     subjects = Counter()
     verb = verb.lower()
 
-    for token in doc:
-        if token.pos_ == "VERB" and token.lemma_.lower == verb:
-            for child in token.children:
-                if child.dep_ in ["nsubj", "nsubjpass"]:
-                    subjects[child.lemma_] += 1
+    #iterate through doc object list
+    docs = doc if isinstance(doc, list) else [doc]
+    for doc in docs:
+        for token in doc:
+            if token.pos_ == "VERB" and token.lemma_.lower() == verb:
+                for child in token.children:
+                    if child.dep_ in ["nsubj", "nsubjpass"]:
+                        subjects[child.lemma_] += 1
     return subjects.most_common(10)
-
-
 
 
 def adjective_counts(doc):
