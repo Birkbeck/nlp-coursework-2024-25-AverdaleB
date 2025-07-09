@@ -179,23 +179,26 @@ def subjects_by_verb_pmi(doc, target_verb):
         for token in doc:
             if token.pos_ == "VERB":
                 total_verbs += 1
+                
+                #Search for verb subjects 
+                for child in token.children:
+                    if child.dep_ in ["nsubj", "nsubjpass"]:
+                        all_subjects[child.lemma_.lower()] += 1
                     
-
-                    #Search for verb subjects 
-                    for child in token.children:
-                        if child.dep_ in ["nsubj", "nsubjpass"]:
-                            all_subjects[child.lemma_].lower += 1
-
-                    
-                            
+            if token.lemma_.lower() == verb_lower:
+                verb_count += 1
+                for child in token.children:
+                    if child.dep_ in ["nsubj", "nsubjpass"]:
+                        target_verb_subjects[child.lemma_.lower()] += 1
+                                      
                         
     # Calculate PMI
     scores_pmi = []
-    sum_subject_verb = sum(subjects.values())
-    sum_subjects = sum(total_count.values())
-    for subject, count in subjects.items():
+    sum_subject_verb = sum(all_subjects.values())
+    
+    for subject, count in target_verb_subjects.items():
         p_subject_verb = count / sum_subject_verb
-        p_subject = total_count[subject] / sum_subject_verb
+        p_subject = all_subjects[subject] / sum_subject_verb
         p_verb = verb_count / total_verbs
         
         if p_subject > 0 and p_verb > 0:
@@ -219,7 +222,7 @@ def subjects_by_verb_count(doc, verb):
             if token.pos_ == "VERB" and token.lemma_.lower() == verb:
                 for child in token.children:
                     if child.dep_ in ["nsubj", "nsubjpass"]:
-                        subjects[child.lemma_] += 1
+                        subjects[child.lemma_.lower()] += 1
     return subjects.most_common(10)
 
 
@@ -238,9 +241,8 @@ def adjective_counts(doc):
 
 
 if __name__ == "__main__":
-    """
-    uncomment the following lines to run the functions once you have completed them
-    """
+
+    #Load novels form p1 texts 
     path = Path.cwd() / "p1-texts" / "novels"
     print(path)
     df = read_novels(path) # this line will fail until you have completed the read_novels function above.
@@ -249,13 +251,10 @@ if __name__ == "__main__":
     nltk.download("punkt")
     nltk.download("punkt_tab")
     nltk.download("cmudict")
-    
+
     print(df.head())
     
-    df_parsed = parse(df)
-    print(df_parsed.head())
-    
-    #Type Token Ratio.
+    #Type Token Ratio
     ttr_map = get_ttrs(df)
     print("\nType-Token Ratios (TTR):")
     for title, ttr in ttr_map.items():
@@ -267,15 +266,16 @@ if __name__ == "__main__":
     for title, fk in fk_map.items():
         print(f"{title}: {fk:.4f}")
 
-    df = pd.read_pickle(Path.cwd() / "pickles" /"parsed.pickle")
-    print(adjective_counts(df))
+    #Parse the novel
+    df_parsed = parse(df)
+    print(df_parsed.head())
 
     #Most common syntactic objects
     for i, row in df_parsed.iterrows():
         print(row["title"])
         print(adjective_counts(row["parsed"]))
         print("\n")
-    
+
     #Most common syntactic subjects of the verb 'hear' by frequency
     print("\n Most common syntactic subjects of the verb 'hear' by frequency:")
     for i, row in df_parsed.iterrows():
@@ -285,9 +285,7 @@ if __name__ == "__main__":
 
     #Most common syntactic subjects of the verb 'hear' by PMI
     print("\nMost common syntactic subjects of the verb 'hear' by PMI:")
-    for i, row in df.iterrows():
+    for i, row in df_parsed.iterrows():
         print(row["title"])
         print(subjects_by_verb_pmi(row["parsed"], "hear"))
         print("\n")
-
-
