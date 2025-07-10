@@ -7,7 +7,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score, classification_report
-from sklearn.svm import SVC
+from sklearn.svm import LinearSVC
 
 
 if __name__ == "__main__":
@@ -51,11 +51,28 @@ if __name__ == "__main__":
     rf_model.fit(X_train, y_train)
     y_pred = rf_model.predict(X_test)
 
-    # Performance evaluation
+    # RF Performance evaluation
     print("RandomForest (n=300) macro-F1:"
           , f1_score(y_test, y_pred, average="macro"))
     print("\nClassification Report:\n",
           classification_report(y_test, y_pred))
+    
+    # Train SVM with linear kernel classifier
+    svm_model = LinearSVC(
+        random_state=26,
+    )
+    svm_model.fit(X_train, y_train)
+    y_pred_svm = svm_model.predict(X_test)
+
+    # Performance evaluation SVM
+    print("SVM (linear) macro-F1:",
+          f1_score(y_test, y_pred_svm, average="macro"))
+    print("\nClassification Report:\n",
+          classification_report(y_test, y_pred_svm))
+    
+
+          
+
     
 
 
