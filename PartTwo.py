@@ -109,12 +109,6 @@ if __name__ == "__main__":
           f1_score(y_test_ngrams, y_pred_svm_ngrams, average="macro"))
     print("\nClassification Report:\n",
           classification_report(y_test_ngrams, y_pred_svm_ngrams))
-
-    
-    
-
-          
-
     
 
 
