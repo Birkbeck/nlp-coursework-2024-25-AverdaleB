@@ -271,6 +271,7 @@ if __name__ == "__main__":
     print(df_parsed.head())
 
     #Most common syntactic objects
+    print("\n Most common syntactic subjects")
     for i, row in df_parsed.iterrows():
         print(row["title"])
         print(adjective_counts(row["parsed"]))
