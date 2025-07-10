@@ -1,5 +1,6 @@
 Answers to the text questions go here.
 
+
 The Flesch Kincaid(FK) struggles or doesn’t account for the complexity of text when that complexity is due to the degree in which the ideas in the text are connected across sentences. The study finds that “cohesion components do not correlate with Flesch Kincaid scores”(Solnyshkina et al., 2017). The study compared a simpler text with one with deep cohesion complexity; however, the FK for both texts was nearly identical and therefore invalid due to cohesion and complex syntax in the texts. Other automated tools were also found to outperform FK in the study. 
 The Flesch-Kincaid is also not reliable when dealing with specialised language that would not be difficult with some prior knowledge from the reader. FK also does not account for the document design factors that allow text to be easier to comprehend. The score cannot measure the factors that truly determine comprehension, such as accounting for health literacy (Jindal and Macdermid, 2017) Patient leaflets or accessible information usually include illustrations or layout text to increase reader comprehension. These multimodal cues are entirely ignored by FK calculations. Therefore, validity of Flesch Kincaid scores in healthcare settings is poor. 
 
@@ -16,5 +17,6 @@ Linguistic Features · spaCy Usage Documentation (no date). Available at: https:
 Rooein, D. et al. (2024) ‘Beyond Flesch-Kincaid: Prompt-based Metrics Improve Difficulty Classification of Educational Texts’. Available at: https://arxiv.org/pdf/2405.09482v1 (Accessed: 3 July 2025).
 Solnyshkina, M.I. et al. (2017) ‘Evaluating Text Complexity and Flesch-Kincaid Grade Level’, www.jsser.org Journal of Social Studies Education Research Sosyal Bilgiler Eğitimi Araştırmaları Dergisi, 2017(3), pp. 238–248. Available at: www.jsser.org (Accessed: 3 July 2025).
 whelk-io/flesch-kincaid: Java OSS library for performing Flesch-Kincaid readability tests. (no date). Available at: https://github.com/whelk-io/flesch-kincaid (Accessed: 3 July 2025).
+
 
 
