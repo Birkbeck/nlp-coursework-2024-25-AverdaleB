@@ -29,6 +29,24 @@ if __name__ == "__main__":
     df = df[df["speech"].str.len() >= 1000]
     print(df.shape)
 
+    vectoriser = TfidfVectorizer(
+        stop_words="english",
+        max_features=3000,       
+    )
+    X_train = vectoriser.fit_transform(df["speech"])
+    y_train = df["party"]
+
+    X_train, X_test, y_train, y_test, feature_names, target_names = train_test(
+        X_train, y_train, 
+        test_size=0.2,
+        random_state=26,
+        stratify=y_train
+    )
+    
+
+
+
+
 
 
 
