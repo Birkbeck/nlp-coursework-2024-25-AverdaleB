@@ -70,6 +70,48 @@ if __name__ == "__main__":
     print("\nClassification Report:\n",
           classification_report(y_test, y_pred_svm))
     
+    # Parameter adjustment for Tfidfvectorizer
+
+    vectoriser_ngrams = TfidfVectorizer(
+        stop_words="english",
+        ngram_range=(1, 3),
+        max_features=3000,       
+    )
+    x_ngrams = vectoriser_ngrams.fit_transform(df["speech"])
+    y = df["party"]
+    X_train_ngrams, X_test_ngrams, y_train_ngrams, y_test_ngrams = train_test_split(
+        x_ngrams, y, 
+        test_size=0.2,
+        random_state=26,
+        stratify=y
+    )
+    random_forest_ngrams = RandomForestClassifier(
+        n_estimators=300,
+        random_state=26    
+    )
+    random_forest_ngrams.fit(X_train_ngrams, y_train_ngrams)
+    y_pred_ngrams = random_forest_ngrams.predict(X_test_ngrams)
+
+    # RF Performance evaluation
+    print("RandomForest (1-3-grams) macro-F1:",
+           f1_score(y_test_ngrams, y_pred_ngrams, average="macro"))
+    print("\nClassification Report:\n",
+          classification_report(y_test_ngrams, y_pred_ngrams))
+    
+    
+    svm_model_ngrams = LinearSVC(
+        random_state=26,
+    )
+    svm_model_ngrams.fit(X_train_ngrams, y_train_ngrams)
+    y_pred_svm_ngrams = svm_model_ngrams.predict(X_test_ngrams)
+    # SVM performance evaluation
+    print("SVM (1-3-grams) macro-F1:",
+          f1_score(y_test_ngrams, y_pred_svm_ngrams, average="macro"))
+    print("\nClassification Report:\n",
+          classification_report(y_test_ngrams, y_pred_svm_ngrams))
+
+    
+    
 
           
 
