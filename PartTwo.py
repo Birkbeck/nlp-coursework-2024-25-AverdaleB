@@ -33,15 +33,34 @@ if __name__ == "__main__":
         stop_words="english",
         max_features=3000,       
     )
-    X_train = vectoriser.fit_transform(df["speech"])
-    y_train = df["party"]
+    X = vectoriser.fit_transform(df["speech"])
+    y = df["party"]
 
-    X_train, X_test, y_train, y_test, feature_names, target_names = train_test(
-        X_train, y_train, 
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, 
         test_size=0.2,
         random_state=26,
-        stratify=y_train
+        stratify=y
     )
+
+    # Train Random Forest 
+    rf_model = RandomForestClassifier(
+        n_estimators=300,
+        random_state=26    
+    )
+    rf_model.fit(X_train, y_train)
+    y_pred = rf_model.predict(X_test)
+
+    # Performance evaluation
+    print("RandomForest (n=300) macro-F1:"
+          , f1_score(y_test, y_pred, average="macro"))
+    print("\nClassification Report:\n",
+          classification_report(y_test, y_pred))
+    
+
+
+
+
     
 
 
