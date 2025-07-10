@@ -1,1 +1,20 @@
 Answers to the text questions go here.
+
+The Flesch Kincaid(FK) struggles or doesn’t account for the complexity of text when that complexity is due to the degree in which the ideas in the text are connected across sentences. The study finds that “cohesion components do not correlate with Flesch Kincaid scores”(Solnyshkina et al., 2017). The study compared a simpler text with one with deep cohesion complexity; however, the FK for both texts was nearly identical and therefore invalid due to cohesion and complex syntax in the texts. Other automated tools were also found to outperform FK in the study. 
+The Flesch-Kincaid is also not reliable when dealing with specialised language that would not be difficult with some prior knowledge from the reader. FK also does not account for the document design factors that allow text to be easier to comprehend. The score cannot measure the factors that truly determine comprehension, such as accounting for health literacy (Jindal and Macdermid, 2017) Patient leaflets or accessible information usually include illustrations or layout text to increase reader comprehension. These multimodal cues are entirely ignored by FK calculations. Therefore, validity of Flesch Kincaid scores in healthcare settings is poor. 
+
+
+References 
+Birkbeck College (2025) Sentences: Dependency Parsing with SpaCy [Lab 3 code] Birkbeck, University of London  Available at: https://moodle.bbk.ac.uk/mod/resource/view.php?id=2514188 (Accessed: 3 July 2025)
+Birkbeck College (2025) Working with word embedding in Python [PowerPoint]. Birkbeck, University of London. Available at: https://moodle.bbk.ac.uk/mod/resource/view.php?id=2502297 (Accessed: 3 July 2025)
+Blankenship, A., Connell, S. and Dombrowski, Q. (2024) ‘Understanding and Creating Word Embeddings’, Programming Historian [Preprint], (13). Available at: https://doi.org/10.46430/PHEN0116.
+Classification of text documents using sparse features — scikit-learn 1.7.0 documentation (no date). Available at: https://scikit-learn.org/stable/auto_examples/text/plot_document_classification_20newsgroups.html (Accessed: 3 July 2025).
+How to train Random Forest in scikit-learn | LabEx (no date). Available at: https://labex.io/tutorials/python-how-to-train-random-forest-in-scikit-learn-425422 (Accessed: 10 July 2025).
+Jindal, P. and Macdermid, J.C. (2017) ‘Assessing reading levels of health information: Uses and limitations of flesch formula’, Education for Health: Change in Learning and Practice, 30(1), pp. 84–88. Available at: https://doi.org/10.4103/1357-6283.210517,.
+Lab 6 ref: Birkbeck College (2025) Sentences: Transformers for Language Modelling[Lab 6 code] Birkbeck, University of London  Available at: https://moodle.bbk.ac.uk/mod/resource/view.php?id=2542898 (Accessed: 3 July 2025)
+Linguistic Features · spaCy Usage Documentation (no date). Available at: https://spacy.io/usage/linguistic-features (Accessed: 3 July 2025).
+Rooein, D. et al. (2024) ‘Beyond Flesch-Kincaid: Prompt-based Metrics Improve Difficulty Classification of Educational Texts’. Available at: https://arxiv.org/pdf/2405.09482v1 (Accessed: 3 July 2025).
+Solnyshkina, M.I. et al. (2017) ‘Evaluating Text Complexity and Flesch-Kincaid Grade Level’, www.jsser.org Journal of Social Studies Education Research Sosyal Bilgiler Eğitimi Araştırmaları Dergisi, 2017(3), pp. 238–248. Available at: www.jsser.org (Accessed: 3 July 2025).
+whelk-io/flesch-kincaid: Java OSS library for performing Flesch-Kincaid readability tests. (no date). Available at: https://github.com/whelk-io/flesch-kincaid (Accessed: 3 July 2025).
+
+
